@@ -1,0 +1,184 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+
+
+const isOperator = /[x/+‑]/,
+    endsWithOperator = /[x+‑/]$/,
+    endsWithNegativeSign = /\d[x/+‑]{1}‑$/;
+
+
+class App extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            expresion: '',
+            currentVal: '',
+            prevVal: '',
+            formula: '',
+            output: 0,
+            evaluated: false,
+
+        }
+        this.handleNumbers = this.handleNumbers.bind(this);
+        this.handleEvaluate = this.handleEvaluate.bind(this);
+        this.handleInitialize = this.handleInitialize.bind(this);
+        this.handleOperation = this.handleOperation.bind(this);
+    }
+    handleNumbers(event) {
+        let expresion = this.state.formula;
+        let value = event.target.value;
+        let {currentVal} = this.state;
+        currentVal += value;
+        expresion += value;
+        this.setState({
+            formula: expresion,
+            expresion: expresion,
+            currentVal: currentVal,
+            output: currentVal,
+        })
+    }
+
+    handleOperation(event) {
+        let {prevVal, currentVal, formula, expresion, output, evaluated} = this.state;
+        let value = event.target.value;
+        if (evaluated) {
+            this.setState({
+                formula: output + event.target.value,
+                output: value,
+                evaluated: false,
+                currentVal: '',
+            })
+        } else {
+            if (endsWithOperator.test(formula)) {
+                // console.log(value);
+
+
+                this.setState({
+                    formula: formula.slice(0,-1) + value,
+                    expresion: expresion,
+                    output: value,
+                    currentVal: '',
+                })
+            } else if (!endsWithOperator.test(formula)){
+                console.log('before',formula);
+                expresion += value;
+                this.setState({
+                    formula: expresion,
+                    expresion: expresion,
+                    output: value,
+                    currentVal: '',
+                });
+                console.log('after',formula);
+            }
+
+
+
+
+        }
+
+
+    }
+    handleEvaluate() {
+        let {expresion, evaluated} = this.state;
+        let output = eval(this.state.formula);
+        this.setState({
+            formula: expresion + "=" + output,
+            output: output,
+            evaluated: true,
+
+        })
+    }
+    handleInitialize() {
+        this.setState({
+            expresion: '',
+            currentVal: '',
+            prevVal: '',
+            formula: '',
+            output: 0,
+            evaluated: false,
+        })
+    }
+    render() {
+        return(
+            <div id={'container'}>
+                <div id={"calculator"}>
+                    <Formula formula = {this.state.formula} />
+                    <Result output = {this.state.output}/>
+                    <Buttons
+                        numbers = {this.handleNumbers}
+                        evaluate = {this.handleEvaluate}
+                        initialize = {this.handleInitialize}
+                        operate = {this.handleOperation}
+                    />
+                    <footer>- by erfan -</footer>
+                </div>
+            </div>
+        )
+    }
+}
+
+class Formula extends React.Component{
+    render() {
+        return(
+            <div id={"formula"}>
+                {this.props.formula}
+            </div>
+        )
+    }
+}
+
+class Result extends React.Component{
+    render() {
+        return(
+            <div id={"display"}>
+                {this.props.output}
+            </div>
+        )
+    }
+}
+
+class Buttons extends React.Component{
+    render() {
+        return(
+            <div id={"buttons-container"}>
+                <dvi id={"other-buttons"}>
+                    <div className={"row"}>
+                        <button className={"button"} id={"seven"} value={7} onClick={this.props.numbers}>7</button>
+                        <button className={"button"} id={"eight"} value={8} onClick={this.props.numbers}>8</button>
+                        <button className={"button"} id={"nine"} value={9} onClick={this.props.numbers}>9</button>
+                        <button className={"button"} id={"divide"} value={"/"} onClick={this.props.operate}>/</button>
+                    </div>
+                    <div className={"row"}>
+                        <button className={"button"} id={"four"} value={"4"} onClick={this.props.numbers}>4</button>
+                        <button className={"button"} id={"five"} value={"5"} onClick={this.props.numbers}>5</button>
+                        <button className={"button"} id={"six"} value={"6"} onClick={this.props.numbers}>6</button>
+                        <button className={"button"} id={"multiply"} value={"*"} onClick={this.props.operate}>*</button>
+                    </div>
+                    <div className={"row"}>
+                        <button className={"button"} id={"one"} value={"1"} onClick={this.props.numbers}>1</button>
+                        <button className={"button"} id={"two"} value={"2"} onClick={this.props.numbers}>2</button>
+                        <button className={"button"} id={"three"} value={"3"} onClick={this.props.numbers}>3</button>
+                        <button className={"button"} id={"subtract"} value={"-"} onClick={this.props.operate}>-</button>
+                    </div>
+                    <div className={"row"}>
+                        <button className={"button"} id={"decimal"} value={"."} onClick={this.props.numbers}>.</button>
+                        <button className={"button"} id={"zero"} value={"0"} onClick={this.props.numbers}>0</button>
+                        <button className={"button"} id={"clear"} value={"AC"} onClick={this.props.initialize}>AC</button>
+                        <button className={"button"} id={"add"} value={"+"} onClick={this.props.operate}>+</button>
+                    </div>
+                </dvi>
+                <div id={"equal-button"}>
+                    <button className={"button"} id={"equals"} value={"="} onClick={this.props.evaluate}>=</button>
+                </div>
+            </div>
+        )
+    }
+}
+
+
+
+
+
+ReactDOM.render(<App />, document.getElementById('root'));
+

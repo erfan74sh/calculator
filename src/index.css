@@ -1,0 +1,109 @@
+*{
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: linear-gradient(45deg, #f77f00, #f48c06);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#calculator{
+  width: 270px;
+  height: 360px;
+  padding: 10px 10px 50px 10px;
+  background-color: #171717;
+}
+
+#formula{
+  height: 40px;
+  background-color: #202124;
+  padding: 5px 10px;
+  color: rgba(247, 127, 0, 0.4);
+}
+
+#display{
+  height: 60px;
+  background-color: #202124;
+  border-bottom: solid 5px #171717;
+  color: #f77f00;
+  padding: 5px 10px;
+  font-size: 1.7rem;
+  overflow: hidden;
+
+}
+
+
+#buttons-container{
+  width: 250px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.row{
+  display: flex;
+}
+
+.button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 50px;
+  background-color: #202124;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition: 200ms;
+  border: none;
+  color: #f77f00;
+  box-shadow: 0 0 1px #f77f00 inset;
+
+}
+.button:hover{
+  background-color: rgba(32, 33, 36, 0.8);
+  box-shadow: 0 0 3px #f77f00 inset;
+
+}
+
+.button:focus{
+  outline: none;
+}
+
+#equal-button{
+  height: 100%;
+}
+
+#equals{
+  height: 100%;
+  border-left: solid 3px #f77f00;
+}
+
+footer{
+  margin-top: 14px;
+  text-align: center;
+  text-transform: capitalize;
+  font-weight: 100;
+  font-size: .8rem;
+  color: #f77f00;
+}
+
